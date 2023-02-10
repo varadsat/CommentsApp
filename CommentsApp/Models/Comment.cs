@@ -11,6 +11,6 @@ namespace CommentsApp.Models
         public IdentityUser IdentityUser { get; set; }
         public ICollection<Comment>? ChildComments { get; set; }
         public string Body { get; set; } = string.Empty;
-        public DateTime DateCreated { get; set; }
+        public DateTime DateCreated { get; set; } = DateTime.Now;
     }
 }
