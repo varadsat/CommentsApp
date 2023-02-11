@@ -9,6 +9,7 @@ namespace CommentsApp.Profiles
         public AutoMapperProfile()
         {
             CreateMap<CommentRequestDto, Comment>();
+            CreateMap<AssetRequestDto, Asset>();    
         }
     }
 }

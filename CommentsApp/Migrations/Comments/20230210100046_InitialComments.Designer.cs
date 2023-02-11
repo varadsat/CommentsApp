@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CommentsApp.Migrations.Comments
 {
     [DbContext(typeof(CommentsContext))]
-    [Migration("20230210075903_InitialComments")]
+    [Migration("20230210100046_InitialComments")]
     partial class InitialComments
     {
         /// <inheritdoc />
