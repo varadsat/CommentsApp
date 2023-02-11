@@ -5,10 +5,12 @@ using CommentsApp.Services.CommentServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,8 +48,11 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IAssetService, AssetService>();
 
-builder.Services.AddControllers().AddJsonOptions(x =>
-                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+JsonSerializerOptions options = new()
+{
+    ReferenceHandler = ReferenceHandler.IgnoreCycles,
+    WriteIndented = true
+};
 
 var app = builder.Build();
 
@@ -73,7 +78,9 @@ app.UseHttpsRedirection();
 
 app.MapPost("/add-comment", async (CommentRequestDto comment, ICommentService commentService) =>
 {
-    return await commentService.CreateComment(comment);
+    var commentCreated = await commentService.CreateComment(comment);
+    string response = JsonSerializer.Serialize(commentCreated, options);
+    return commentCreated;
 });
 app.MapPut("/add-child-comment", async (CommentRequestDto comment, int parentId, ICommentService commentService) =>
 {
@@ -87,8 +94,11 @@ app.MapGet("/get-child-comments", async (int parentId, ICommentService commentSe
 {
     return await commentService.GetChildComments(parentId);
 });
-
-
+app.MapDelete("del-comment", async (int id, ICommentService commentService) =>
+{
+    await commentService.DeleteComment(id);
+    return Results.Ok();
+});
 
 app.Run();
 

@@ -10,6 +10,6 @@ namespace CommentsApp.Services.CommentServices
         Task<Comment> CreateChildComment(CommentRequestDto requestDto, int parentId);
         Task<List<Comment>> GetAllComments();
         Task<List<Comment>> GetChildComments(int id);
-        void DeleteComment(int id);
+        Task DeleteComment(int id);
     }
 }
