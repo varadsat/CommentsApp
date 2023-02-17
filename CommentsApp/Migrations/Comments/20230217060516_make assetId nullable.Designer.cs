@@ -4,6 +4,7 @@ using CommentsApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CommentsApp.Migrations.Comments
 {
     [DbContext(typeof(CommentsContext))]
-    partial class CommentsContextModelSnapshot : ModelSnapshot
+    [Migration("20230217060516_make assetId nullable")]
+    partial class makeassetIdnullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,9 +56,12 @@ namespace CommentsApp.Migrations.Comments
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("IdentityUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -63,7 +69,7 @@ namespace CommentsApp.Migrations.Comments
 
                     b.HasIndex("CommentId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("IdentityUserId");
 
                     b.ToTable("Comments");
                 });
@@ -130,15 +136,13 @@ namespace CommentsApp.Migrations.Comments
                         .WithMany("ChildComments")
                         .HasForeignKey("CommentId");
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdentityUserId");
 
                     b.Navigation("Asset");
 
-                    b.Navigation("User");
+                    b.Navigation("IdentityUser");
                 });
 
             modelBuilder.Entity("CommentsApp.Models.Asset", b =>

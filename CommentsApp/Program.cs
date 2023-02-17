@@ -80,7 +80,7 @@ app.MapPost("/add-comment", async (CommentRequestDto comment, ICommentService co
 {
     var commentCreated = await commentService.CreateComment(comment);
     string response = JsonSerializer.Serialize(commentCreated, options);
-    return commentCreated;
+    return response;
 });
 app.MapPut("/add-child-comment", async (CommentRequestDto comment, int parentId, ICommentService commentService) =>
 {
