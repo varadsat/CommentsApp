@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CommentsApp.Migrations
 {
-    [DbContext(typeof(UserContext))]
-    [Migration("20230209100447_InitialIdentity")]
+    [DbContext(typeof(CommentsContext))]
+    [Migration("20230218071020_InitialIdentity")]
     partial class InitialIdentity
     {
         /// <inheritdoc />

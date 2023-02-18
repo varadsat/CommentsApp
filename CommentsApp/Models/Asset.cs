@@ -2,7 +2,7 @@
 {
     public class Asset
     {
-        public string Id { get; set; } = string.Empty;
-        public ICollection<Comment>? Comments { get; set; } = new List<Comment>();
+        public string Id { get; set; } = default!;
+        public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
     }
 }

@@ -22,7 +22,7 @@ namespace CommentsApp.Services.CommentServices
             _assetService = assetService;
         }
 
-        
+
 
         public async Task<Comment> CreateChildComment(CommentRequestDto requestDto, int parentId)
         {
@@ -39,7 +39,7 @@ namespace CommentsApp.Services.CommentServices
         {
             var asset = await _context.Assets.FindAsync(requestDto.AssetId) ?? await _assetService.CreateAsset(requestDto.AssetId);
             var comment = requestDto.ToModel();
-            comment.ChildComments = new List<Comment>();   
+            comment.ChildComments = new List<Comment>();
             await _context.Comments.AddAsync(comment);
             asset.Comments.Add(comment);
             await _context.SaveChangesAsync();
@@ -55,7 +55,7 @@ namespace CommentsApp.Services.CommentServices
             {
                 _context.Comments.Remove(child);
             }
-            _context.DeleteComment(comment);
+            //_context.DeleteComment(comment);
             await _context.SaveChangesAsync();
         }
 
@@ -67,7 +67,7 @@ namespace CommentsApp.Services.CommentServices
 
         public async Task<List<Comment>> GetChildComments(int id)
         {
-            var comment = await _context.Comments.Include(comment => comment.ChildComments).FirstOrDefaultAsync(c => c.Id ==id);
+            var comment = await _context.Comments.Include(comment => comment.ChildComments).FirstOrDefaultAsync(c => c.Id == id);
             return comment.ChildComments.ToList();
         }
     }

@@ -21,10 +21,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-            .AddEntityFrameworkStores<UserContext>()
+            .AddEntityFrameworkStores<CommentsContext>()
             .AddDefaultTokenProviders();
-builder.Services.AddDbContext<UserContext>(options =>
-            options.UseSqlServer("Server=.\\SQLExpress;Database=CommentsAppDatabase;Trusted_Connection=true;TrustServerCertificate=true"));
+//builder.Services.AddDbContext<UserContext>(options =>
+ //           options.UseSqlServer("Server=.\\SQLExpress;Database=CommentsAppDatabase;Trusted_Connection=true;TrustServerCertificate=true"));
 
 builder.Services.AddDbContext<CommentsContext>(options =>
             options.UseSqlServer("Server=.\\SQLExpress;Database=CommentsAppDatabase;Trusted_Connection=true;TrustServerCertificate=true"));
@@ -45,8 +45,8 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddScoped<ICommentService, CommentService>();
-builder.Services.AddScoped<IAssetService, AssetService>();
+//builder.Services.AddScoped<ICommentService, CommentService>();
+//builder.Services.AddScoped<IAssetService, AssetService>();
 
 JsonSerializerOptions options = new()
 {
